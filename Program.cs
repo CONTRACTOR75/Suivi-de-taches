@@ -8,8 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddDbContext<TaskDbContext>(options =>
     options.UseMySql(
-        "server=localhost;port=3308;database=nom_de_ta_base;user=ton_utilisateur;password=ton_mot_de_passe",
-        new MySqlServerVersion(new Version(8, 0, 36)) // Mets ici la version de ton serveur MySQL
+        "server=localhost;port=3308;database=suivi_taches;user=root;password=Mathia@s2005",
+        new MariaDbServerVersion(new Version(10, 4, 25))
     )
 );
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
