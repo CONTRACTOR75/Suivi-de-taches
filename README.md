@@ -42,3 +42,11 @@ Ce projet est une application de **gestion de tâches** composée de :
 
 ```bash
 dotnet run
+
+### 🔹 3. Interface Python
+
+- Lance l’interface avec :
+
+```bash
+cd interface
+python interface.py
