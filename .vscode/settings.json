@@ -5,6 +5,8 @@
         "**/.hg": true,
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
-        ".mule": true
+        ".mule": true,
+        "github.copilot.enableCommitScope": false,
+        "github.copilot.enableCommitMessage": false
     }
 }
