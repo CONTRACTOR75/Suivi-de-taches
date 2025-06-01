@@ -1,97 +1,215 @@
+import tkinter as tk
+from tkinter import messagebox, simpledialog, font, ttk
 import requests
 
 API_URL = "http://localhost:5209/api/SuiviDeTaches"  # adapte le port si besoin
 
-def afficher_taches():
-    try:
-        response = requests.get(API_URL)
-        if response.status_code == 200:
-            print("Affichage des tâches :")
-            for t in response.json():
-                print(f"{t['id']} - {t['title']} ({'Terminé' if t['isCompleted'] else 'En cours'})")
-        else:
-            print("Erreur lors de la récupération des tâches.")
-    except requests.exceptions.ConnectionError:
-        print("Erreur : Impossible de se connecter au serveur. Vérifie que l'API C# est démarrée.")
+# --- Tooltip pour afficher la description ---
+class ToolTip:
+    def __init__(self, widget):
+        self.widget = widget
+        self.tipwindow = None
+        self.last_index = None
 
-def afficher_tache_precise():
+    def showtip(self, text, x, y):
+        self.hidetip()
+        if not text:
+            return
+        self.tipwindow = tw = tk.Toplevel(self.widget)
+        tw.wm_overrideredirect(True)
+        tw.wm_geometry(f"+{x}+{y}")
+        label = tk.Label(tw, text=text, justify=tk.LEFT,
+                         background="#ffffe0", relief=tk.SOLID, borderwidth=1,
+                         font=("Segoe UI", 10))
+        label.pack(ipadx=1)
+
+    def hidetip(self):
+        if self.tipwindow:
+            self.tipwindow.destroy()
+            self.tipwindow = None
+
+def get_task_description(index):
     try:
-        id_tache = input("ID de la tâche à afficher : ")
+        ligne = listbox.get(index)
+        id_tache = ligne.split(" - ")[0]
         response = requests.get(f"{API_URL}/{id_tache}")
         if response.status_code == 200:
             t = response.json()
-            print(f"Tache : {t['id']} - {t['title']} : {t['description']} ({'Terminé' if t['isCompleted'] else 'En cours'})")
-        elif response.status_code == 404:
-            print("Tâche non trouvée.")
-        else:
-            print("Erreur lors de la récupération de la tâche.")
-    except requests.exceptions.ConnectionError:
-        print("Erreur : Impossible de se connecter au serveur. Vérifie que l'API C# est démarrée.")
+            return t.get("description", "")
+    except Exception:
+        pass
+    return ""
 
-def ajouter_tache():
+def on_listbox_motion(event):
+    index = listbox.nearest(event.y)
+    if index != tooltip.last_index and 0 <= index < listbox.size():
+        tooltip.last_index = index
+        desc = get_task_description(index)
+        if desc:
+            x = event.x_root + 20
+            y = event.y_root + 10
+            tooltip.showtip(desc, x, y)
+        else:
+            tooltip.hidetip()
+    elif not (0 <= index < listbox.size()):
+        tooltip.hidetip()
+
+def on_listbox_leave(event):
+    tooltip.hidetip()
+    tooltip.last_index = None
+
+def rafraichir():
     try:
-        titre = input("Titre : ")
-        description = input("Description : ")
-        data = {"title": titre, "description": description, "isCompleted": False}
+        listbox.delete(0, tk.END)
+        response = requests.get(API_URL)
+        if response.status_code == 200:
+            for t in response.json():
+                statut = "✅ Terminé" if t['isCompleted'] else "🕓 En cours"
+                listbox.insert(tk.END, f"{t['id']} - {t['title']} ({statut})")
+        else:
+            messagebox.showerror("Erreur", "Erreur lors de la récupération des tâches.")
+    except requests.exceptions.ConnectionError:
+        messagebox.showerror("Erreur", "Impossible de se connecter au serveur.")
+
+def ajouter():
+    titre = simpledialog.askstring("Titre", "Titre de la tâche :", parent=root)
+    if not titre:
+        return
+    description = simpledialog.askstring("Description", "Description de la tâche :", parent=root)
+    if description is None:
+        return
+    data = {"title": titre, "description": description, "isCompleted": False}
+    try:
         response = requests.post(API_URL, json=data)
         if response.status_code == 201:
-            print("Tâche ajoutée !")
+            messagebox.showinfo("Succès", "Tâche ajoutée !", parent=root)
+            rafraichir()
         else:
-            print("Erreur lors de l'ajout.")
+            messagebox.showerror("Erreur", "Erreur lors de l'ajout.", parent=root)
     except requests.exceptions.ConnectionError:
-        print("Erreur : Impossible de se connecter au serveur. Vérifie que l'API C# est démarrée.")
+        messagebox.showerror("Erreur", "Impossible de se connecter au serveur.", parent=root)
 
-def modifier_tache():
+def supprimer():
+    selection = listbox.curselection()
+    if not selection:
+        messagebox.showwarning("Attention", "Sélectionne une tâche à supprimer.", parent=root)
+        return
+    id_tache = listbox.get(selection[0]).split(" - ")[0]
     try:
-        id_tache = input("ID de la tâche à modifier : ")
-        titre = input("Nouveau titre : ")
-        description = input("Nouvelle description : ")
-        is_completed = input("Terminée ? (oui/non) : ").lower() == "oui"
-        data = {"id": int(id_tache), "title": titre, "description": description, "isCompleted": is_completed}
-        response = requests.put(f"{API_URL}/{id_tache}", json=data)
-        if response.status_code == 204:
-            print("Tâche modifiée !")
-        elif response.status_code == 404:
-            print("Tâche non trouvée.")
-        else:
-            print("Erreur lors de la modification.")
-    except requests.exceptions.ConnectionError:
-        print("Erreur : Impossible de se connecter au serveur. Vérifie que l'API C# est démarrée.")
-
-def supprimer_tache():
-    try:
-        id_tache = input("ID de la tâche à supprimer : ")
         response = requests.delete(f"{API_URL}/{id_tache}")
         if response.status_code == 204:
-            print("Tâche supprimée !")
+            messagebox.showinfo("Succès", "Tâche supprimée !", parent=root)
+            rafraichir()
         elif response.status_code == 404:
-            print("Tâche non trouvée.")
+            messagebox.showerror("Erreur", "Tâche non trouvée.", parent=root)
         else:
-            print("Erreur lors de la suppression.")
+            messagebox.showerror("Erreur", "Erreur lors de la suppression.", parent=root)
     except requests.exceptions.ConnectionError:
-        print("Erreur : Impossible de se connecter au serveur. Vérifie que l'API C# est démarrée.")
+        messagebox.showerror("Erreur", "Impossible de se connecter au serveur.", parent=root)
 
-if __name__ == "__main__":
-    while True:
-        print("\nSUIVI DES TACHES : Menu \n1. Afficher toutes les tâches")
-        print("2. Afficher une tâche précise")
-        print("3. Ajouter une tâche")
-        print("4. Modifier une tâche")
-        print("5. Supprimer une tâche")
-        print("6. Quitter")
-        choix = input("\nChoix : ")
-        if choix == "1":
-            afficher_taches()
-        elif choix == "2":
-            afficher_tache_precise()
-        elif choix == "3":
-            ajouter_tache()
-        elif choix == "4":
-            modifier_tache()
-        elif choix == "5":
-            supprimer_tache()
-        elif choix == "6":
-            print("Au revoir !")
-            break
+def quitter():
+    if messagebox.askokcancel("Quitter", "Voulez-vous vraiment quitter l'application ?", parent=root):
+        root.destroy()
+
+def modifier():
+    selection = listbox.curselection()
+    if not selection:
+        messagebox.showwarning("Attention", "Sélectionne une tâche à modifier.", parent=root)
+        return
+    ligne = listbox.get(selection[0])
+    id_tache = ligne.split(" - ")[0]
+    # Récupérer la tâche actuelle
+    try:
+        response = requests.get(f"{API_URL}/{id_tache}")
+        if response.status_code == 200:
+            t = response.json()
+            nouveau_titre = simpledialog.askstring("Modifier le titre", "Nouveau titre :", initialvalue=t['title'], parent=root)
+            if not nouveau_titre:
+                return
+            nouvelle_description = simpledialog.askstring("Modifier la description", "Nouvelle description :", initialvalue=t['description'], parent=root)
+            if nouvelle_description is None:
+                return
+            is_completed = messagebox.askyesno("Statut", "La tâche est-elle terminée ?", parent=root)
+            data = {
+                "id": t['id'],
+                "title": nouveau_titre,
+                "description": nouvelle_description,
+                "isCompleted": is_completed
+            }
+            resp = requests.put(f"{API_URL}/{id_tache}", json=data)
+            if resp.status_code == 204:
+                messagebox.showinfo("Succès", "Tâche modifiée !", parent=root)
+                rafraichir()
+            elif resp.status_code == 404:
+                messagebox.showerror("Erreur", "Tâche non trouvée.", parent=root)
+            else:
+                messagebox.showerror("Erreur", "Erreur lors de la modification.", parent=root)
         else:
-            print("Choix invalide.")
+            messagebox.showerror("Erreur", "Impossible de récupérer la tâche.", parent=root)
+    except requests.exceptions.ConnectionError:
+        messagebox.showerror("Erreur", "Impossible de se connecter au serveur.", parent=root)
+
+# --- Interface graphique ---
+root = tk.Tk()
+root.title("Suivi de Tâches")
+root.geometry("700x500")
+root.configure(bg="#f5f6fa")
+root.resizable(False, False)  # Fenêtre non modifiable
+
+root.protocol("WM_DELETE_WINDOW", quitter)  # Confirmation sur la croix
+
+# Police personnalisée
+titre_font = font.Font(family="Segoe UI", size=16, weight="bold")
+btn_font = font.Font(family="Segoe UI", size=11, weight="bold")
+
+titre_label = tk.Label(root, text="Gestionnaire de Tâches", font=titre_font, bg="#f5f6fa", fg="#273c75")
+titre_label.pack(pady=(15, 5))
+
+frame = tk.Frame(root, bg="#f5f6fa")
+frame.pack(padx=20, pady=10, fill=tk.BOTH, expand=True)
+
+listbox = tk.Listbox(
+    frame, width=80, height=15, font=("Segoe UI", 11), bd=2, relief=tk.GROOVE,
+    selectbackground="#dff9fb", selectforeground="black"
+)
+listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+scrollbar = tk.Scrollbar(frame, orient="vertical", command=listbox.yview)
+scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+listbox.config(yscrollcommand=scrollbar.set)
+
+btn_frame = tk.Frame(root, bg="#f5f6fa")
+btn_frame.pack(pady=10)
+
+style = ttk.Style()
+style.theme_use('clam')
+style.configure("Rounded.TButton",
+    font=btn_font,
+    foreground="white",
+    background="#40739e",
+    borderwidth=0,
+    focusthickness=3,
+    focuscolor='none',
+    padding=10,
+    relief="flat"
+)
+style.map("Rounded.TButton",
+    background=[('active', '#273c75')],
+    foreground=[('active', 'white')]
+)
+
+
+
+ttk.Button(btn_frame, text="Rafraîchir", command=rafraichir, style="Rounded.TButton").pack(side=tk.LEFT, padx=7)
+ttk.Button(btn_frame, text="Ajouter", command=ajouter, style="Rounded.TButton").pack(side=tk.LEFT, padx=7)
+ttk.Button(btn_frame, text="Modifier", command=modifier, style="Rounded.TButton").pack(side=tk.LEFT, padx=7)
+ttk.Button(btn_frame, text="Supprimer", command=supprimer, style="Rounded.TButton").pack(side=tk.LEFT, padx=7)
+ttk.Button(btn_frame, text="Quitter", command=quitter, style="Rounded.TButton").pack(side=tk.LEFT, padx=7)
+
+# Tooltip pour la description au survol
+tooltip = ToolTip(listbox)
+listbox.bind("<Motion>", on_listbox_motion)
+listbox.bind("<Leave>", on_listbox_leave)
+
+rafraichir()
+root.mainloop()
