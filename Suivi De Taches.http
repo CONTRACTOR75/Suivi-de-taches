@@ -1,0 +1,6 @@
+@Suivi_De_Taches_HostAddress = http://localhost:5209
+
+GET {{Suivi_De_Taches_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

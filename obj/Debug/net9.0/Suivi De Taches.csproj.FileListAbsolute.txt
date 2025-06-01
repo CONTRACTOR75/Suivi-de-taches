@@ -1,0 +1,33 @@
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\bin\Debug\net9.0\appsettings.Development.json
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\bin\Debug\net9.0\appsettings.json
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\bin\Debug\net9.0\Suivi De Taches.staticwebassets.endpoints.json
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\bin\Debug\net9.0\Suivi De Taches.exe
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\bin\Debug\net9.0\Suivi De Taches.deps.json
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\bin\Debug\net9.0\Suivi De Taches.runtimeconfig.json
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\bin\Debug\net9.0\Suivi De Taches.dll
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\bin\Debug\net9.0\Suivi De Taches.pdb
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\bin\Debug\net9.0\Microsoft.AspNetCore.OpenApi.dll
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\bin\Debug\net9.0\Microsoft.OpenApi.dll
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\obj\Debug\net9.0\Suivi De Taches.csproj.AssemblyReference.cache
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\obj\Debug\net9.0\Suivi De Taches.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\obj\Debug\net9.0\Suivi De Taches.AssemblyInfoInputs.cache
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\obj\Debug\net9.0\Suivi De Taches.AssemblyInfo.cs
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\obj\Debug\net9.0\Suivi De Taches.csproj.CoreCompileInputs.cache
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\obj\Debug\net9.0\Suivi De Taches.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\obj\Debug\net9.0\Suivi De Taches.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\obj\Debug\net9.0\scopedcss\bundle\Suivi De Taches.styles.css
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\obj\Debug\net9.0\staticwebassets.development.json
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\obj\Debug\net9.0\staticwebassets.build.endpoints.json
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\obj\Debug\net9.0\staticwebassets\msbuild.Suivi De Taches.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\obj\Debug\net9.0\staticwebassets\msbuild.Suivi De Taches.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\obj\Debug\net9.0\staticwebassets\msbuild.build.Suivi De Taches.props
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\obj\Debug\net9.0\staticwebassets\msbuild.buildMultiTargeting.Suivi De Taches.props
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\obj\Debug\net9.0\staticwebassets\msbuild.buildTransitive.Suivi De Taches.props
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\obj\Debug\net9.0\staticwebassets.pack.json
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\obj\Debug\net9.0\Suivi De.7100359B.Up2Date
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\obj\Debug\net9.0\Suivi De Taches.dll
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\obj\Debug\net9.0\refint\Suivi De Taches.dll
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\obj\Debug\net9.0\Suivi De Taches.pdb
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\obj\Debug\net9.0\Suivi De Taches.genruntimeconfig.cache
+C:\Users\ni_vu_ni_connu\Desktop\Mathias\Cours\L2_2025\Deuxieme Semestre\Programmation C#\Codes\DDM\Suivi De Taches\obj\Debug\net9.0\ref\Suivi De Taches.dll
