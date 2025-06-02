@@ -1,8 +1,31 @@
 import tkinter as tk
 from tkinter import messagebox, simpledialog, font, ttk
 import requests
+import subprocess
+import sys
+import os
+import time
 
-API_URL = "http://localhost:5209/api/SuiviDeTaches"  # adapte le port si besoin
+API_URL = "http://localhost:5209/api/SuiviDeTaches"  # Mets ici le port de ton API
+
+def tester_connexion(api_url):
+    try:
+        requests.get(api_url, timeout=2)
+        return True
+    except Exception:
+        return False
+
+def lancer_api(api_path):
+    if sys.platform == "win32":
+        creationflags = subprocess.CREATE_NEW_CONSOLE
+    else:
+        creationflags = 0
+    subprocess.Popen(
+        ["dotnet", "run"],
+        cwd=api_path,
+        creationflags=creationflags
+    )
+    time.sleep(3)
 
 # --- Tooltip pour afficher la description ---
 class ToolTip:
@@ -19,8 +42,8 @@ class ToolTip:
         tw.wm_overrideredirect(True)
         tw.wm_geometry(f"+{x}+{y}")
         label = tk.Label(tw, text=text, justify=tk.LEFT,
-                         background="#ffffe0", relief=tk.SOLID, borderwidth=1,
-                         font=("Segoe UI", 10))
+                        background="#ffffe0", relief=tk.SOLID, borderwidth=1,
+                        font=("Segoe UI", 10))
         label.pack(ipadx=1)
 
     def hidetip(self):
@@ -63,9 +86,16 @@ def rafraichir():
         listbox.delete(0, tk.END)
         response = requests.get(API_URL)
         if response.status_code == 200:
-            for t in response.json():
-                statut = "✅ Terminé" if t['isCompleted'] else "🕓 En cours"
-                listbox.insert(tk.END, f"{t['id']} - {t['title']} ({statut})")
+            tasks = response.json()
+            if not tasks:
+                listbox.insert(tk.END, "Aucune tâche enregistrée pour le moment.")
+                # On ne peut pas styliser une seule ligne, alors on grise toute la Listbox si vide
+                listbox.config(fg="#888888", font=('Segoe UI', 12, 'italic'), justify="center")
+            else:
+                listbox.config(fg="black", font=("Segoe UI", 11), justify="left")
+                for t in tasks:
+                    statut = "✅ Terminé" if t['isCompleted'] else "🕓 En cours"
+                    listbox.insert(tk.END, f"{t['id']} - {t['title']} ({statut})")
         else:
             messagebox.showerror("Erreur", "Erreur lors de la récupération des tâches.")
     except requests.exceptions.ConnectionError:
@@ -91,10 +121,17 @@ def ajouter():
 
 def supprimer():
     selection = listbox.curselection()
-    if not selection:
+    if not selection or listbox.get(selection[0]).startswith("Aucune tâche"):
         messagebox.showwarning("Attention", "Sélectionne une tâche à supprimer.", parent=root)
         return
-    id_tache = listbox.get(selection[0]).split(" - ")[0]
+    ligne = listbox.get(selection[0])
+    id_tache = ligne.split(" - ")[0]
+    titre = "cette tâche"
+    # Optionnel : récupérer le titre réel de la tâche pour l'afficher dans le message
+    if " - " in ligne:
+        titre = ligne.split(" - ")[1].split(" (")[0]
+    if not messagebox.askokcancel("Confirmation", f"Voulez-vous vraiment supprimer la tâche : '{titre}' ?", parent=root):
+        return
     try:
         response = requests.delete(f"{API_URL}/{id_tache}")
         if response.status_code == 204:
@@ -113,7 +150,7 @@ def quitter():
 
 def modifier():
     selection = listbox.curselection()
-    if not selection:
+    if not selection or listbox.get(selection[0]).startswith("Aucune tâche"):
         messagebox.showwarning("Attention", "Sélectionne une tâche à modifier.", parent=root)
         return
     ligne = listbox.get(selection[0])
